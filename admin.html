@@ -134,6 +134,15 @@
     } catch (e) { toast('Ошибка: ' + e.message); if (btn) btn.disabled = false; }
   }
 
+  async function removeGuest(id, btn) {
+    if (btn) btn.disabled = true;
+    try {
+      const res = await API.call({ action: 'admin_delete', key, id });
+      data = res.participants; openIds.delete(id); renderBody();
+      toast('Участник удалён');
+    } catch (e) { toast('Ошибка: ' + e.message); if (btn) btn.disabled = false; }
+  }
+
   // ---------- каркас ----------
   function renderShell() {
     app.innerHTML = `
@@ -229,6 +238,7 @@
             <div class="score">${p.score}</div>
           </summary>
           ${Q.questions.map((q, i) => p.answers[i + 1] ? answerRow(p, p.answers[i + 1], false) : `<div class="ans"><div class="qq">${i + 1}. ${esc(q.text)}</div><div class="muted">— нет ответа —</div></div>`).join('')}
+          <div class="ans"><button class="btn ghost" data-del="${esc(p.id)}" data-name="${esc(p.name)}">🗑 Удалить участника</button></div>
         </details>`).join('');
       body.querySelectorAll('details').forEach(d => d.ontoggle = () => { d.open ? openIds.add(d.dataset.id) : openIds.delete(d.dataset.id); });
     }
@@ -236,6 +246,15 @@
     body.querySelectorAll('.bonus button').forEach(b => b.onclick = (e) => {
       e.preventDefault(); e.stopPropagation();
       const w = b.parentElement; bonus(w.dataset.id, +w.dataset.q, +b.dataset.d, b);
+    });
+    body.querySelectorAll('[data-del]').forEach(b => b.onclick = (e) => {
+      e.preventDefault();
+      if (!b.dataset.armed) {
+        b.dataset.armed = '1'; b.style.color = 'var(--red)'; b.textContent = 'Точно удалить «' + b.dataset.name + '» и все ответы? Нажмите ещё раз';
+        setTimeout(() => { if (b.isConnected && b.dataset.armed) { delete b.dataset.armed; b.style.color = ''; b.textContent = '🗑 Удалить участника'; } }, 4000);
+        return;
+      }
+      removeGuest(b.dataset.del, b);
     });
   }
 
