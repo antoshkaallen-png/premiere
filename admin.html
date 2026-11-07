@@ -78,6 +78,7 @@
 
 <script src="config.js"></script>
 <script src="api.js"></script>
+<script src="admin-tv.js"></script>
 <script>
 (function () {
   const Q = window.QUIZ, API = window.QuizAPI, total = Q.questions.length;
@@ -155,6 +156,7 @@
         <button class="tab" data-tab="rating">🏆 Рейтинг</button>
         <button class="tab" data-tab="byq">✍️ По вопросам</button>
         <button class="tab" data-tab="people">👥 Участники</button>
+        <button class="tab" data-tab="tv">🎛️ ANTOSHKAALLEN TV</button>
       </div>
       <div id="body"></div>`;
     document.getElementById('refresh').onclick = () => load();
@@ -182,6 +184,8 @@
     document.getElementById('st-f').textContent = data.filter(p => p.finished).length;
     document.getElementById('st-a').textContent = data.reduce((s, p) => s + answered(p), 0);
     document.getElementById('upd').textContent = 'обновлено ' + new Date().toLocaleTimeString('ru-RU') + ' · автообновление каждые 10 сек';
+
+    if (tab === 'tv') { if (window.AdminTV) AdminTV.mount(body, { key, API }); return; }
 
     if (!data.length) { body.innerHTML = '<p class="muted">Пока никто не пришёл. Гости появятся здесь, как только введут имя.</p>'; return; }
 

@@ -140,6 +140,7 @@
   .sync.pending i { background: #f5b301; animation: pulse 1s infinite; }
   .sync.err i { background: var(--red); animation: pulse .6s infinite; }
   @keyframes pulse { 50% { opacity: .3; } }
+  .warn { border: 2px solid var(--red); color: #fff; background: rgba(255, 43, 61, .12); font-weight: 800; font-size: 13px; line-height: 1.35; letter-spacing: .03em; padding: 12px 14px; border-radius: 6px; margin: -8px 0 26px; }
   .demo { font-size: 11px; text-align: center; color: #f5b301; margin-top: 10px; letter-spacing: .05em; }
 </style>
 </head>
@@ -158,6 +159,7 @@
     <section class="screen" id="s-intro">
       <h1 id="i-title"></h1>
       <p class="lead" id="i-text"></p>
+      <div class="warn">🔞 ВНИМАНИЕ! ВАШИ ОТВЕТЫ И ИМЯ МОГУТ ПОЯВИТЬСЯ НА БОЛЬШОМ ЭКРАНЕ. ВЫ САМИ ОТВЕЧАЕТЕ ЗА СВОИ ПРИЗНАНИЯ</div>
       <label class="label" for="name">Имя для протокола</label>
       <input type="text" id="name" maxlength="40" autocomplete="nickname" enterkeyhint="go">
       <div class="actions">
