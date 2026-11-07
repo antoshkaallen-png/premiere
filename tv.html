@@ -488,8 +488,8 @@
       w *= 0.7 + Math.random() * 0.6;  // немного случайности
       if (w > bestW) { bestW = w; best = a; }
     }
-    // если свежих карточек нет — иногда разбавляем заявлениями редакции
-    if (best && fresh === 0 && Math.random() < 0.35) return null;
+    // пока гостей мало — крутим их ответы чаще; заявления редакции подмешиваем, только когда гостей много
+    if (best && fresh === 0 && guests.size >= 8 && Math.random() < 0.2) return null;
     return best;
   }
 
